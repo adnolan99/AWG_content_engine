@@ -1,0 +1,33 @@
+{
+  "name": "awg-content-engine",
+  "version": "1.0.0",
+  "description": "Automated blog and social media content engine for AI Work Guide",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
+    "better-sqlite3": "^12.6.2",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "node-cron": "^4.2.1",
+    "openai": "^6.27.0",
+    "resend": "^6.9.3",
+    "rss-parser": "^3.13.0",
+    "yaml": "^2.8.2"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.4.0",
+    "@types/node-cron": "^3.0.11",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
