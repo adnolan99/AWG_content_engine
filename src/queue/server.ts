@@ -87,10 +87,12 @@ export function createQueueServer(): express.Express {
           title: item.title,
           content: item.content,
           slug: metadata.slug,
-          status: "published",
+          status: "draft",
+          keyword: metadata.keyword,
           seo_title: metadata.seo_title,
           seo_description: metadata.seo_description,
           categories: metadata.categories,
+          faqs: metadata.faqs,
         });
         recordPublished({
           queue_id: id,
@@ -154,6 +156,11 @@ function renderCard(item: { id: number; type: string; platform: string | null; t
         <span>${item.created_at}</span>
       </div>
       <h3><a href="/queue/${item.id}">${escapeHtml(item.title)}</a></h3>
+      <div class="card-actions">
+        <form method="POST" action="/queue/${item.id}/reject" style="display:inline;">
+          <button type="submit" class="btn btn-reject btn-sm">Reject</button>
+        </form>
+      </div>
     </div>
   `;
 }
@@ -173,6 +180,8 @@ function renderPage(title: string, body: string): string {
     .card { background: white; border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
     .card h3 a { color: #1a1a1a; text-decoration: none; }
     .card h3 a:hover { color: #2563eb; }
+    .card-actions { margin-top: 0.5rem; }
+    .btn-sm { padding: 0.25rem 0.6rem; font-size: 0.75rem; }
     .meta { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem; font-size: 0.85rem; color: #666; }
     .badge { background: #e5e7eb; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
     .badge.blog { background: #dbeafe; color: #1d4ed8; }

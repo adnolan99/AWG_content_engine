@@ -5,18 +5,24 @@ interface DropInBlogPost {
   content: string;
   slug?: string;
   status?: "draft" | "published";
+  keyword?: string;
   seo_title?: string;
   seo_description?: string;
   categories?: string[];
+  faqs?: { question: string; answer: string }[];
 }
 
 interface DropInBlogResponse {
+  success: boolean;
   data?: {
-    id: string;
-    slug: string;
-    url: string;
+    post: {
+      id: number;
+      slug: string;
+      url: string;
+      shareUrl: string;
+    };
   };
-  error?: string;
+  message?: string;
 }
 
 export async function publishToBlog(
@@ -46,9 +52,13 @@ export async function publishToBlog(
         content: post.content,
         slug: post.slug,
         status: post.status ?? "draft",
+        keyword: post.keyword,
         seo_title: post.seo_title,
         seo_description: post.seo_description,
         categories: post.categories,
+        faqs: post.faqs,
+        enable_toc: true,
+        author_id: parseInt(process.env.DROPINBLOG_AUTHOR_ID || "74402", 10),
       }),
     }
   );
@@ -59,13 +69,13 @@ export async function publishToBlog(
   }
 
   const result = (await response.json()) as DropInBlogResponse;
-  if (result.error) {
-    throw new Error(`DropInBlog error: ${result.error}`);
+  if (!result.success) {
+    throw new Error(`DropInBlog error: ${result.message}`);
   }
 
   return {
-    id: result.data?.id ?? "",
-    slug: result.data?.slug ?? post.slug ?? "",
-    url: result.data?.url ?? "",
+    id: String(result.data?.post?.id ?? ""),
+    slug: result.data?.post?.slug ?? post.slug ?? "",
+    url: result.data?.post?.url ?? "",
   };
 }

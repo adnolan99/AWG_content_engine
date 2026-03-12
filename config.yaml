@@ -1,5 +1,5 @@
 ai:
-  default_model: claude
+  default_model: openai
   claude:
     model: claude-sonnet-4-6
   openai:

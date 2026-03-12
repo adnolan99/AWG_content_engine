@@ -61,10 +61,13 @@ export function startScheduler(): void {
           title: post.title,
           content: post.content,
           metadata: JSON.stringify({
+            keyword: post.keyword,
             slug: post.slug,
             seo_title: post.seo_title,
             seo_description: post.seo_description,
             categories: post.categories,
+            faqs: post.faqs,
+            suggested_image: post.suggested_image,
           }),
         });
         log(`Blog queued for review: "${post.title}"`);
